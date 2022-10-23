@@ -1,0 +1,14 @@
+version: 2.1
+
+jobs:
+  run-tests:
+    docker:
+      - image: golang:latest
+    steps:
+      - checkout
+      - run: bash ./test.sh
+
+workflows:
+  test-workflow:
+    jobs:
+      - run-tests

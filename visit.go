@@ -67,9 +67,9 @@ type traversalError struct {
 //
 // Normal usage looks like this:
 //
-//   err := configs.LoadWithPrefix(&cfg, "MYAPP")
-//   err = configs.Ensure(err, "MYAPP_PORT", cfg.Port > 0, "must be a positive integer")
-//   err = configs.Ensure(err, "MYAPP_ENV", isValid(cfg.ENV), "must be one of: %v", validEnvs)
+//	err := configs.LoadWithPrefix(&cfg, "MYAPP")
+//	err = configs.Ensure(err, "MYAPP_PORT", cfg.Port > 0, "must be a positive integer")
+//	err = configs.Ensure(err, "MYAPP_ENV", isValid(cfg.ENV), "must be one of: %v", validEnvs)
 //
 // If predicate is true, err is returned unchanged.
 // If predicate is false and err is nil, a new error will be returned.
