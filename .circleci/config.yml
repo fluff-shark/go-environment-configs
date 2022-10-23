@@ -6,7 +6,6 @@ jobs:
       - image: golang:latest
     steps:
       - checkout
-      - run: go get -u golang.org/x/lint/golint
       - run: bash ./test.sh
 
 workflows:
