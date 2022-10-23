@@ -6,9 +6,8 @@ jobs:
       - image: golang:latest
     steps:
       - checkout
-      - run:
-          name: "Tests"
-          command: ./test.sh"
+      - run: go get -u golang.org/x/lint/golint
+      - run: ./test.sh
 
 workflows:
   test-workflow:
