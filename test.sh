@@ -9,12 +9,7 @@ cd ${SCRIPTPATH}
 go get -u golang.org/x/lint/golint
 go test . -count=1
 
-# golint and gofmt always return 0... so we need to capture the output and test it
-LINT=$(golint .)
-if ! [ -z "${LINT}" ]; then
-    echo ${LINT}
-    exit 1
-fi
+# gofmt always returns 0... so we need to capture the output and test it
 
 FMT=$(gofmt -l -s *.go)
 if ! [ -z ${FMT} ]; then
