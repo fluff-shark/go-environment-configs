@@ -1,0 +1,11 @@
+language: go
+dist: jammy
+branches:
+  only:
+    - master
+go:
+  - '1.19.2'
+before_script:
+  - go get -u golang.org/x/lint/golint
+script:
+  - ./test.sh
