@@ -1,5 +1,5 @@
 
-[![BuildStatus](https://travis-ci.com/fluff-shark/go-environment-configs.svg?branch=master)](https://travis-ci.com/fluff-shark/go-environment-configs)
+[![CircleCI](https://circleci.com/gh/fluff-shark/go-environment-configs.svg?style=svg)](https://circleci.com/gh/fluff-shark/go-environment-configs)
 [![ReportCard](https://goreportcard.com/badge/github.com/fluff-shark/go-environment-configs)](https://goreportcard.com/report/github.com/fluff-shark/go-environment-configs)
 [![GoDoc](https://godoc.org/github.com/fluff-shark/go-environment-configs?status.svg)](https://godoc.org/github.com/fluff-shark/go-environment-configs)
 
