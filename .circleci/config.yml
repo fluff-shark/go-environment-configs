@@ -7,7 +7,7 @@ jobs:
     steps:
       - checkout
       - run: go get -u golang.org/x/lint/golint
-      - run: ./test.sh
+      - run: bash ./test.sh
 
 workflows:
   test-workflow:
