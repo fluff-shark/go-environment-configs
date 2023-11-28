@@ -40,7 +40,7 @@ type struct Server {
 ```
 
 Set some environment variables in your shell.
-The names will be derived from your Struct's names.
+The names will be derived from your Struct's field names.
 
 ```sh
 export MYAPP_MAIN_PORT=80
@@ -80,7 +80,8 @@ func Parse() Config {
 ```
 
 This library's validation only checks things it can know given the types declared on the struct.
-Any extra validation is on the caller. For example:
+Any extra validation is on the caller, but there are some utils to help concatenate errors and
+normalize the error output. For example:
 
 ```go
   cfg := Config{
@@ -97,5 +98,4 @@ Any extra validation is on the caller. For example:
 # Contributing
 
 Pull requests are welcome for bugfixes and support for types
-that aren't yet implemented. Otherwise please open an issue
-first to discuss.
+that aren't implemented yet. Otherwise please open an issue first to discuss.
