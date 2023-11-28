@@ -5,6 +5,8 @@ import (
 	"os"
 	"reflect"
 	"strings"
+	"unicode"
+	"unicode/utf8"
 )
 
 // visitor is a function which acts on struct leaf properties.
@@ -38,7 +40,7 @@ func doVisit(environmentSoFar string, theValue reflect.Value, v visitor, errs er
 	for i := 0; i < theType.NumField(); i++ {
 		thisField := theType.Field(i)
 		thisFieldValue := theValue.Elem().Field(i)
-		environment := environmentSoFar + "_" + thisField.Tag.Get("environment")
+		environment := environmentSoFar + "_" + envFromName(thisField.Name)
 		switch thisField.Type.Kind() {
 		case reflect.Ptr:
 			if _, ok := terminalTypes[thisField.Type.String()]; ok {
@@ -55,6 +57,24 @@ func doVisit(environmentSoFar string, theValue reflect.Value, v visitor, errs er
 		}
 	}
 	return errs
+}
+
+func envFromName(name string) string {
+	var sb strings.Builder
+
+	thisRune, width := utf8.DecodeRuneInString(name[0:])
+	sb.WriteRune(unicode.ToUpper(thisRune))
+	var rest = name[width:]
+	for len(rest) > 0 {
+		lastRune := thisRune
+		thisRune, width = utf8.DecodeRuneInString(rest[0:])
+		if unicode.IsUpper(thisRune) && unicode.IsLower(lastRune) {
+			sb.WriteString("_")
+		}
+		sb.WriteRune(unicode.ToUpper(thisRune))
+		rest = rest[width:]
+	}
+	return sb.String()
 }
 
 // traversalError is returned by visit() if the visitor returned any errors

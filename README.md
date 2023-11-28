@@ -24,29 +24,35 @@ This library's goal is to make these steps as painless as possible.
 
 # Usage
 
-Define structs and tag them with the names of environment variables:
+Define structs with names matching your environment variables:
 
 ```go
 type struct Config {
-  Main Server `environment:"MAIN"`
-  Admin Server `environment:"ADMIN"`
-  Password string `environment:"PASSWORD"`
+  Main Server
+  Admin Server
+  Password string
+  DatabasePassword string
 }
 
 type struct Server {
-  Port int `environment:"PORT"`
+  Port int
 }
 ```
 
 Set some environment variables in your shell.
+The names will be derived from your Struct's names.
+The `MYAPP_` prefix is defined when the variables are loaded (see below).
+It is not required, but recommended to namespace your project's environment
+variables and avoid conflicts with other things running on the system.
 
 ```sh
 export MYAPP_MAIN_PORT=80
 export MYAPP_ADMIN_PORT=81
 export MYAPP_PASSWORD=boo
+export MYAPP_DATABASE_PASSWORD=ghost
 ```
 
-Reference them in the code like so:
+Initialize them in the code like so:
 
 ```go
 import (
@@ -74,12 +80,8 @@ func Parse() Config {
 }
 ```
 
-The "Prefix" is intended as a namespace to help separate your app's environment
-variables from others running on the same system.
-
-This library only handles type-based valiation. The Load() functions will return errors
-or panic if an environment variable has a value which can't fit into the Config struct,
-but any extra validation is on the caller. For example:
+This library's validation only checks things it can know given the types declared on the struct.
+Any extra validation is on the caller. For example:
 
 ```go
   cfg := Config{

@@ -12,23 +12,25 @@ import (
 )
 
 type Config struct {
-	Boolean      bool     `environment:"BOOLEAN"`
-	Int          int      `environment:"INT"`
-	UINT_8       uint8    `environment:"UINT_8"`
-	UINT_16      uint16   `environment:"UINT_16"`
-	UINT_32      uint32   `environment:"UINT_32"`
-	UINT_64      uint64   `environment:"UINT_64"`
-	BigInt       big.Int  `environment:"BIG_INT"`
-	String       string   `environment:"STRING"`
-	IntSlice     []int    `environment:"INT_SLICE"`
-	StringSlice  []string `environment:"STRING_SLICE"`
-	Nested       *Nested  `environment:"NESTED"`
-	SomePassword string   `environment:"SOME_PASSWORD"`
+	Boolean      bool
+	Int          int
+	UINT_8       uint8
+	UINT_16      uint16
+	UINT_32      uint32
+	UINT_64      uint64
+	BigInt       big.Int
+	String       string
+	IntSlice     []int
+	StringSlice  []string
+	Nested       *Nested
+	SomePassword string
+
+	Ά本語 string
 }
 
 type Nested struct {
-	Value         int      `environment:"VALUE"`
-	BigIntPointer *big.Int `environment:"BIG_INT_POINTER"`
+	Value         int
+	BigIntPointer *big.Int
 }
 
 func TestWellFormedValues(t *testing.T) {
@@ -45,6 +47,7 @@ func TestWellFormedValues(t *testing.T) {
 	defer setEnv(t, "MY_NESTED_VALUE", "20")()
 	defer setEnv(t, "MY_NESTED_BIG_INT_POINTER", "112")()
 	defer setEnv(t, "MY_SOME_PASSWORD", "secret")()
+	defer setEnv(t, "MY_Ά本語", "日本語")()
 
 	cfg := Config{
 		Nested: &Nested{},
@@ -65,6 +68,7 @@ func TestWellFormedValues(t *testing.T) {
 	assertStringSlicesEqual(t, []string{"abc", "def"}, cfg.StringSlice)
 	assertIntsEqual(t, 20, cfg.Nested.Value)
 	assertBigIntsEqual(t, big.NewInt(112), cfg.Nested.BigIntPointer)
+	assertStringsEqual(t, "日本語", cfg.Ά本語)
 
 	var buf bytes.Buffer
 	log.SetOutput(&buf)
@@ -85,6 +89,7 @@ func TestWellFormedValues(t *testing.T) {
 	assertStringContains(t, logged, "MY_NESTED_BIG_INT_POINTER: 112")
 	assertStringContains(t, logged, "MY_SOME_PASSWORD: <redacted>")
 	assertNotStringContains(t, logged, "secret")
+	assertStringContains(t, logged, "MY_Ά本語: \"日本語\"")
 }
 
 func TestBadValues(t *testing.T) {
