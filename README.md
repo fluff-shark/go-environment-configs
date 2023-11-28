@@ -41,9 +41,6 @@ type struct Server {
 
 Set some environment variables in your shell.
 The names will be derived from your Struct's names.
-The `MYAPP_` prefix is defined when the variables are loaded (see below).
-It is not required, but recommended to namespace your project's environment
-variables and avoid conflicts with other things running on the system.
 
 ```sh
 export MYAPP_MAIN_PORT=80
@@ -52,7 +49,9 @@ export MYAPP_PASSWORD=boo
 export MYAPP_DATABASE_PASSWORD=ghost
 ```
 
-Initialize them in the code like so:
+A prefix like `MYAPP_` is not required, but recommended to help namespace your
+project's environment variables from other programs running on the system. It
+is defined when the variables are loaded into the struct, like so:
 
 ```go
 import (
